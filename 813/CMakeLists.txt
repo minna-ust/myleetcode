@@ -31,4 +31,4 @@ endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fext-numeric-literals")
 
 # Declare the executable target built from your sources
-add_executable(813 src/813_debug.cpp)
+add_executable(813 813_debug.cpp)

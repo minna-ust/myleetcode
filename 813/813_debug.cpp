@@ -3,35 +3,51 @@
 #include <iostream>
 #include <algorithm>
 #include <sstream>
+#include <map>
 using namespace std;
 class Solution {
 public:
     double largestSumOfAverages(vector<int>& A, int K) {
+        memset(dp, 0, sizeof(dp));
         return recur(A, K, 0, A.size() - 1);
     }
 
+    double dp[101][101];
+
+    map<pair<int, int>, double> avgResults;
+    map<pair<int, int>, double> sumResults;
     double average(vector<int>& A, int start, int range)
     {
+        if (avgResults.count(make_pair(start, range)))
+            return avgResults[make_pair(start, range)];
         int sum = 0;
         for (int i = start; i < start + range; ++i)
         {
             sum += A[i];
         }
+        avgResults.insert(make_pair(make_pair(start, range), (double)sum / range));
         return (double)sum / range;
     }
 
     double sum(vector<int>& A, int start, int end)
     {
+        if (sumResults.count(make_pair(start, end)))
+            return sumResults[make_pair(start, end)];
         double res = 0.0;
         for (int i = start; i <= end; ++i)
         {
             res += A[i];
         }
+        sumResults.insert(make_pair(make_pair(start, end), res));
         return res;
     }
 
     double recur(vector<int>& A, int K, int start, int end)
     {
+        if (dp[start][K] > 0)
+        {
+            return dp[start][K];
+        }
         if (start < end && K > 1 && K < (end - start + 1))
         {
             double max = 0.0;
@@ -43,6 +59,7 @@ public:
                     max = tmp;
                 }
             }
+            dp[start][K] = max;
             return max;
         }
         else if (start == end)
