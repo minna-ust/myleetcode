@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 # Define project name
-project(2)
+project(1114)
 
 SET(CMAKE_BUILD_TYPE Debug)
 IF(NOT CMAKE_BUILD_TYPE)
@@ -31,4 +31,4 @@ endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fext-numeric-literals")
 
 # Declare the executable target built from your sources
-add_executable(2 2_debug.cpp)
+add_executable(1114 1114.cpp)
