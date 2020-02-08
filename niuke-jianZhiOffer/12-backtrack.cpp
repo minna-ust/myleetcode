@@ -2,6 +2,11 @@ class Solution {
 public:
     bool hasPath(char* matrix, int rows, int cols, char* str)
     {
+        //注意nullptr检查!!!
+        if (matrix == nullptr || str == nullptr || rows < 1 || cols < 1)
+        {
+            return false;
+        }
         int strLength = strlen(str);
         if (strLength == 0)
         {
