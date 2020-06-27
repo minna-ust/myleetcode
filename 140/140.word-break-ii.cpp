@@ -28,7 +28,7 @@ public:
             {
                 str += s.substr(start, i - start) + " ";
                 // res.push_back(s.substr(start, i - start));
-                recur(i + 1, end, s, wordDict, res, str);
+                recur(i, end, s, wordDict, res, str);
                 str -= s.substr(start, i - start) + " ";
             }
         }
