@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 # Define project name
-project(813)
+project(testLeetcode)
 
 SET(CMAKE_BUILD_TYPE Debug)
 IF(NOT CMAKE_BUILD_TYPE)
@@ -30,7 +30,10 @@ endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fext-numeric-literals")
 
+find_package(Boost COMPONENTS chrono system filesystem thread regex REQUIRED)
+
 include_directories(/home/wml/workspace/myleetcode/)
 
 # Declare the executable target built from your sources
-add_executable(813 813_debug.cpp)
+add_executable(testLeetcode test.cpp)
+target_link_libraries(testLeetcode ${Boost_LIBRARIES})
