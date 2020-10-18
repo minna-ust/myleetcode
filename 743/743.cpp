@@ -1,3 +1,14 @@
+#include <string>
+#include <iostream>
+#include <vector>
+#include <map>
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string_regex.hpp>
+#include <boost/regex.hpp>
+#include <queue>
+
+using namespace std;
+
 typedef pair<int, int> iipair;
 class Solution {
 public:
@@ -74,3 +85,30 @@ public:
         return res;
     }
 };
+
+int main(int argc, char** argv)
+{
+    std::string input(argv[1]);
+    input = input.substr(1, input.size() - 2);
+    input = input.substr(1, input.size() - 2);
+
+    std::vector<std::string> vStr;
+    boost::algorithm::split_regex(vStr, input, boost::regex("\\],\\["));
+
+    std::vector<std::vector<int>> times;
+    for (auto str : vStr)
+    {
+        std::vector<std::string> vStrTime;
+        std::vector<int> time;
+        boost::algorithm::split(vStrTime, str, boost::is_any_of(","));
+        for (auto num : vStrTime)
+        {
+            time.push_back(std::stoi(num));
+        }
+        times.push_back(time);
+    }
+
+    Solution().networkDelayTime(times, 4, 2);
+
+    return 0;
+}
