@@ -39,10 +39,28 @@ double getMedianOfTwoSortedArrays(std::vector<int> &nums1,
 int getKth(std::vector<int> &nums1, int start1, int end1,
     std::vector<int> &nums2, int start2, int end2, int k)
 {
+    int len1 = end1 - start1 + 1;
+    int len2 = end2 - start2 + 1;
+    if (len1 > len2)
+        return getKth(nums2, start2, end2, nums1, start1, end1, k);
+    if (len1 == 0)
+    {
+        return nums2[k + start2 - 1];
+    }
+
     if (k == 1)
     {
-        return nums1[start1] < nums2[start2] ? nums1[
-    if (nums1[start1 + k / 2 - 1] == nums2[start2 + k / 2 - 1])
-    {
-        return getKth(nums1, k / 2, end1, nums2, start2, end2, (k - k / 2) / 2);
+        return std::min(nums1[start1], nums2[start2]);
     }
+
+    int i = std::min(start1 + k / 2 - 1, start1 + len1 - 1);
+    int j = std::min(start2 + k / 2 - 1, start2 + len2 - 1);
+    if (nums1[i] < nums2[j])
+    {
+        return getKth(nums1, i + 1, end1, nums2, start2, end2, k - (i - start1 + 1));
+    }
+    else
+    {
+        return getKth(nums1, start1, end1, nums2, j + 1, end2, k - (j - start2 + 1));
+    }
+}
