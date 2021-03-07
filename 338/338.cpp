@@ -34,7 +34,14 @@ public:
         int base = 0;
         for (int i = 2; i <= num; ++i)
         {
-            if ((i - (i >> 1) * 2) == 0) // 说明i是2的某次方
+            //if ((i - (i >> 1) * 2) == 0) // 说明i是2的某次方 ---> 事实证明是错的, 比如i 为 6时;
+            //if ( i & (i >> 1) == 0) //也不能说明i是2的某次方 ---> 比如i为5;
+            // 为了判断一个正整数是不是 2 的整数次幂，可以利用方法一中提到的按位与运算的性质。正整数 y 是 2 的整数次幂，当且仅当 y&(y−1)=0。
+            //     作者：LeetCode-Solution
+            //     链接：https://leetcode-cn.com/problems/counting-bits/solution/bi-te-wei-ji-shu-by-leetcode-solution-0t1i/
+            //     来源：力扣（LeetCode）
+            //     著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+            if ((i & (i - 1)) == 0)
             {
                 base = i;
                 res.push_back(1);
