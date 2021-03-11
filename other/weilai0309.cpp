@@ -1,3 +1,4 @@
+// 参考leetcode 1143
 //最长公共子序列
 // abcd, adcc, ---> ac,ad
 // abcd, cdcc, ---> cd
