@@ -17,6 +17,32 @@
                         b,a
 
 
+                                 abcdcb, ccbe;
+                            /                   \
+                           /                     \
+                          /                       \
+                     abcdcb, ccb;             abcdc, ccbe;
+                         |                       /      \
+                         |                      /        \
+                         |                     /          \
+                     abcdc, cc;           abcd, ccbe;   abcdc, ccb;
+                                                          /      \
+                                                         /       \
+                                                        /         \
+                                                   abcd, ccb;    abcdc, cc;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class Solution {
