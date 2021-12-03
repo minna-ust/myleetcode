@@ -37,7 +37,8 @@ public:
             }
             if (i == s.size() - 1)
             {
-                max_len = std::max(max_len, i - index_start);
+                max_len = std::max(max_len, i - index_start + 1);
+            }
         }
         return max_len;
     }
