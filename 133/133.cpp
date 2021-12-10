@@ -9,9 +9,10 @@ Node* cloneGraph(Node* node)
     if (node_map.count(node))
         return node_map[node];
     Node* cloned_node = new Node(node.val);
-    for ()
+    node_map.insert(std::pair(node, cloned_node));
+    for (Node* neighbor_node : node.neighbors)
     {
-
+        cloned_node->neighbors.push_back(cloneGraph(neighbor_node));
     }
-
+    return cloned_node;
 }
