@@ -68,3 +68,56 @@ string longestPalindrome(sring s)
     }
     return s.substr(idx[0][s.size() - 1][0], idx[0][s.size() - 1][1] + 1);
 }
+
+////////////////////////
+string longestPalindrome(sring s)
+{
+    vector<bool> v(s.size(), false);
+    vector<vector<bool>> m(s.size(), v);
+
+    for (int k = 0; k < s.size(); ++k)
+    {
+        m[k][k] = true;
+    }
+    for (int k = 0; k+1 < s.size(); ++k)
+    {
+        if (s[k] == s[k+1])
+        {
+            m[k][k+1] = true;
+        }
+        else
+        {
+            m[k][k+1] = false;
+        }
+    }
+
+    int max_len = 0;
+    int start_idx = 0;
+    for (int j = 2; j < s.size(); ++j)
+    {
+        for (int i = 0; i+j < s.size(); ++i)
+        {
+            if (s[i] != s[i+j])
+            {
+                m[i][i+j] = false;
+            }
+            else
+            {
+                if (m[i-1][i+j-1])
+                {
+                    m[i][i+j] = true;
+                }
+                else
+                {
+                    m[i][i+j] = false;
+                }
+            }
+            if (m[i][i+j] && j + 1 > max_len)
+            {
+                max_len = j + 1;
+                start_idx = i;
+            }
+        }
+    }
+    return s.substr(start_idx, max_len);
+}////
