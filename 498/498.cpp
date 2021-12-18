@@ -28,6 +28,15 @@ vector<int> findDiagonalOrder(vector<vector<int>>& mat) {
             up = true;
             j++;
         }
-        if (i
+        if ( j >= n)
+        {
+            i+=2;j--;up=false;
+        }
+        if (i>=m)
+        {
+            j+=2;i--;up=true;
+        }
+
     }
+    return res;
 }
