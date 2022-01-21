@@ -53,22 +53,22 @@ public:
 
         void erase(int num)
         {
-            if (num = small_q.top())
-            {
-                small_q.pop();
-            }
-            if (num = large_q.pop())
-            {
-                large_q.pop();
-            }
             delayed[num]++;
+            if (num == small_q.top())
+            {
+                prune();
+            }
+            if (num == large_q.top())
+            {
+                prune();
+            }
             if (num < small_q.top())
             {
                 small_size--;
             }
-            if (num = large_q.pop())
+            if (num > large_q.top())
             {
-                large_size++;
+                large_size--;
             }
             make_balance();
         }
