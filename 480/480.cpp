@@ -3,13 +3,26 @@ class Solution {
 public:
     vector<double> medianSlidingWindow(vector<int>& nums, int k) {
         vector<double> res;
-        DualPriorityQueue dual_queue;
+        DualPriorityQueue dual_queue(k);
         for (int i = 0; i < nums.size(); ++i)
         {
-            dual_queue.insert(nums[i]);
+            if (i < k - 1)
+            {
+                std::cout << "add: " << nums[i] << std::endl;
+                dual_queue.insert(nums[i]);
+            }
+            if ( i == k - 1)
+            {
+                std::cout << "add: " << nums[i] << std::endl;
+                dual_queue.insert(nums[i]);
+                res.push_back(dual_queue.getMedian());
+            }
             if ( i >= k)
             {
+                std::cout << "erase: " << nums[i-k] << " add: " << nums[i]  << std::endl;
                 dual_queue.erase(nums[i-k]);
+                dual_queue.insert(nums[i]);
+                dual_queue.print();
                 res.push_back(dual_queue.getMedian());
             }
         }
@@ -24,24 +37,46 @@ public:
         std::unordered_map<int,int> delayed;
         int small_size = 0;
         int large_size = 0;
+        int k_;
     public:
+        DualPriorityQueue(int k): k_(k) {}
+
+        template<typename T>
+        void print_q(T q)
+        {
+            while(!q.empty())
+            {
+                std::cout << q.top() << " ";
+                q.pop();
+            }
+            std::cout << "\n";
+        }
+
+        void print()
+        {
+            print_q(small_q);
+            print_q(large_q);
+        }
+
         void insert(int num)
         {
             if (small_q.empty() || num < small_q.top())
             {
                 small_q.push(num);
+                small_size++;
                 make_balance();
             }
             else
             {
                 large_q.push(num);
+                large_size++;
                 make_balance();
             }
         }
 
         double getMedian()
         {
-            if (k % 2 == 1)
+            if (k_ % 2 == 1)
             {
                 return small_q.top();
             }
@@ -54,19 +89,21 @@ public:
         void erase(int num)
         {
             delayed[num]++;
-            if (num == small_q.top())
+            if (!small_q.empty() && num == small_q.top())
             {
+                small_size--;
                 prune();
             }
-            if (num == large_q.top())
+            if (!large_q.empty() && num == large_q.top())
             {
+                large_size--;
                 prune();
             }
-            if (num < small_q.top())
+            if (!small_q.empty() && num < small_q.top())
             {
                 small_size--;
             }
-            if (num > large_q.top())
+            if (!large_q.empty() && num > large_q.top())
             {
                 large_size--;
             }
@@ -75,6 +112,7 @@ public:
 
         void make_balance()
         {
+            std::cout << "before balance : small size" << small_size << " large size" << large_size << std::endl;
             if (small_size > large_size + 1)
             {
                 large_q.push(small_q.top());
@@ -89,20 +127,37 @@ public:
                 small_size++;
                 large_size--;
             }
+            std::cout << "after balance : small size" << small_size << " large size" << large_size << std::endl;
             prune();
         }
 
         void prune()
         {
-            while (delayed.count(min_q.top()))
+            std::cout << "before prune : small size" << small_size << " large size" << large_size << std::endl;
+            for (auto pair: delayed)
             {
-                delayed[min_q.top()]--;
-                min_q.pop();
+                std::cout << "key: " << pair.first << " value: " << pair.second << "\n";
             }
-            while (delayed.count(max_q.top()))
+            while (!small_q.empty() && delayed.count(small_q.top()))
             {
-                delayed[max_q.top()]--;
-                max_q.pop();
+                delayed[small_q.top()]--;
+                if (delayed[small_q.top()] == 0)
+                {
+                    delayed.erase(small_q.top());
+                }
+                small_q.pop();
             }
+
+            while (!large_q.empty() && delayed.count(large_q.top()))
+            {
+                delayed[large_q.top()]--;
+                if (delayed[large_q.top()] == 0)
+                {
+                    delayed.erase(large_q.top());
+                }
+                large_q.pop();
+            }
+            std::cout << "after prune : small size" << small_size << " large size" << large_size << std::endl;
         }
     };
+};
